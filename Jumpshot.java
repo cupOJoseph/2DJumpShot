@@ -23,6 +23,11 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
     Joint target;
 
+    //Jump Shot simulation global vars
+    double jumpPower = -1;
+    double t1, t2, t3;
+
+
     // Radius of circle to draw.
     int radius = 10;
     int numJoints = 6;
@@ -36,6 +41,9 @@ public class Jumpshot extends JPanel implements MouseInputListener {
     {
         this.addMouseListener (this);
         this.addMouseMotionListener (this);
+
+        this.setSize (800, 500);
+        this.setBackground (Color.gray);
 
         // Make the Joints and place them in their initial positions.
         // Note: the  positions satisfy the link size.
@@ -85,15 +93,18 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                 g.setColor (Color.blue);
             }
             g.fillOval (x-radius, y-radius, 2*radius, 2*radius);
-            g.setColor (Color.gray);
+            g.setColor (Color.pink);
+
+            Graphics2D g2 = (Graphics2D) g;
             if (prevX >= 0) {
                 g.drawLine (prevX, prevY, x, y);
+
             }
             prevX = x;
             prevY = y;
         }
 
-        // Draw obstacles.
+        // Draw net.
         g.setColor (Color.red);
         Graphics2D g2 = (Graphics2D) g;
         for (Rectangle2D.Double R: obstacles) {
@@ -218,22 +229,89 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
     double distance (int x1, int y1, int x2, int y2)
     {
-	return Math.sqrt ( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
+	 return Math.sqrt ( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
     }
 
     double distance (double x1, double y1, double x2, double y2)
     {
-	return Math.sqrt ( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
+	       return Math.sqrt ( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
+    }
+
+
+    JPanel makeBottomPanel(){
+        JPanel panel = new JPanel ();
+
+
+        //get jump power;
+        panel.add (new JLabel ("Jump Power: "));
+        JTextField jp = new JTextField("0", 3);
+        panel.add(jp);
+
+        //=======Timings =========//
+        //get time 1,
+        panel.add (new JLabel ("Upper Arm: "));
+        JTextField t1 = new JTextField("0", 3);
+        panel.add(t1);
+
+        //get time 2
+        panel.add (new JLabel ("Forearm: "));
+        JTextField t2 = new JTextField("0", 3);
+        panel.add(t2);
+
+        //get release ball time, t3
+        panel.add (new JLabel ("Release: "));
+        JTextField t3 = new JTextField("0", 3);
+        panel.add(t3);
+
+        //==========+End of timers+==========//
+
+        panel.add (new JLabel ("    "));
+        JButton planB = new JButton ("Simulate");
+        panel.add (planB);
+        planB.addActionListener (
+            new ActionListener ()
+            {
+                public void actionPerformed (ActionEvent a)
+                {
+                    System.out.println("Pressed Plan");
+                }
+            }
+        );
+
+	//nextB.setEnabled (false);
+
+    panel.add (new JLabel ("    "));
+	JButton quitB = new JButton ("Quit");
+	quitB.addActionListener (
+	   new ActionListener () {
+		   public void actionPerformed (ActionEvent a)
+		   {
+		       System.exit(0);
+		   }
+           }
+        );
+	panel.add (quitB);
+
+        return panel;
     }
 
     public static void main (String[] argv)
     {
         Jumpshot a = new Jumpshot ();
         JFrame frame = new JFrame ();
-        frame.setSize (500, 500);
+        frame.setSize (1200, 1200);
+
+        //pane for the game
         Container cPane = frame.getContentPane();
         cPane.add (a);
+
+        //pane for the buttons
+        cPane.add (a.makeBottomPanel(), BorderLayout.SOUTH);
+
+        //make all panels visible
         frame.setVisible (true);
+
+
     }
 
 }
