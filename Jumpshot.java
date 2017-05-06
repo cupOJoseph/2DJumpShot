@@ -8,7 +8,7 @@ import javax.swing.border.*;
 import java.util.*;
 import java.text.*;
 
-class Node {
+class Joint {
     int ID;
     double x,y;
     double nextX, nextY;
@@ -17,17 +17,17 @@ class Node {
 
 public class Jumpshot extends JPanel implements MouseInputListener {
 
-    // Store node instances.
-    Vector<Node> nodes;
+    // Store Joint instances.
+    Vector<Joint> Joints;
     Vector<Rectangle2D.Double> obstacles;
 
-    Node target;
+    Joint target;
 
     // Radius of circle to draw.
     int radius = 10;
-    int numNodes = 6;
+    int numJoints = 6;
     double linkSize = 200;
-    int currentNode = -1;
+    int currentJoint = -1;
 
     String msg = "";
     int numIllegalMoves = 0;
@@ -37,22 +37,22 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         this.addMouseListener (this);
         this.addMouseMotionListener (this);
 
-        // Make the nodes and place them in their initial positions.
+        // Make the Joints and place them in their initial positions.
         // Note: the  positions satisfy the link size.
-        nodes = new Vector<Node> ();
+        Joints = new Vector<Joint> ();
         double heightOffset = linkSize * Math.sin(2*Math.PI*15.0/360.0);
         double xOffset = linkSize * Math.cos(2*Math.PI*15.0/360.0);
-        for (int i=0; i<numNodes; i++) {
-            Node node = new Node ();
-            node.ID = i;
+        for (int i=0; i<numJoints; i++) {
+            Joint Joint = new Joint ();
+            Joint.ID = i;
             if (i % 2 == 0) {
-                node.x = 0;
+                Joint.x = 0;
             }
             else {
-                node.x = xOffset;
+                Joint.x = xOffset;
             }
-            node.y = i * heightOffset;
-            nodes.add (node);
+            Joint.y = i * heightOffset;
+            Joints.add (Joint);
         }
 
         // The obstacles.
@@ -61,7 +61,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         obstacles.add (new Rectangle2D.Double(350,240,125,120));
 
         // Target.
-        target = new Node ();
+        target = new Joint ();
         target.x = 450;
         target.y = 275;
     }
@@ -73,12 +73,12 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         g.setColor (Color.white);
         g.fillRect (0,0, D.width, D.height);
 
-        // Draw nodes.
+        // Draw Joints.
         int prevX=-1, prevY=-1;
-        for (Node node : nodes) {
-            int x = (int) node.x;
-            int y = D.height - (int) node.y;
-            if (node.ID == currentNode) {
+        for (Joint Joint : Joints) {
+            int x = (int) Joint.x;
+            int y = D.height - (int) Joint.y;
+            if (Joint.ID == currentJoint) {
                 g.setColor (Color.cyan);
             }
             else {
@@ -114,22 +114,22 @@ public class Jumpshot extends JPanel implements MouseInputListener {
     }
 
 
-    void move (Node node, double nextX, double nextY)
+    void move (Joint Joint, double nextX, double nextY)
     {
-        // Move this node and all later ones up by same amount.
-        double delX = nextX - node.x;
-        double delY = nextY - node.y;
-        for (int j=node.ID; j<numNodes; j++) {
+        // Move this Joint and all later ones up by same amount.
+        double delX = nextX - Joint.x;
+        double delY = nextY - Joint.y;
+        for (int j=Joint.ID; j<numJoints; j++) {
             // Translate by same amount.
-            Node n = nodes.get(j);
+            Joint n = Joints.get(j);
             n.nextX = n.x + delX;
             n.nextY = n.y + delY;
         }
 
-        for (int j=node.ID-1; j>=0; j--) {
-            // Find closest point to circle centered at previous node's center.
-            Node n = nodes.get(j);
-            Node prev = nodes.get(j+1);
+        for (int j=Joint.ID-1; j>=0; j--) {
+            // Find closest point to circle centered at previous Joint's center.
+            Joint n = Joints.get(j);
+            Joint prev = Joints.get(j+1);
             double d = distance (prev.nextX, prev.nextY, n.x, n.y);
             double xDiff = prev.nextX - n.x;
             double yDiff = prev.nextY - n.y;
@@ -142,9 +142,9 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
         // Check validity here: intersection w/ obstacles.
         Dimension D = this.getSize();
-        for (int i=0; i<nodes.size()-1; i++) {
-            Node n = nodes.get(i);
-            Node m = nodes.get(i+1);
+        for (int i=0; i<Joints.size()-1; i++) {
+            Joint n = Joints.get(i);
+            Joint m = Joints.get(i+1);
             Line2D.Double L = new Line2D.Double (n.x,D.height-n.y, m.x,D.height-m.y);
             for (Rectangle2D.Double R: obstacles) {
                 // See if R intersects line.
@@ -158,7 +158,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
 
         // Now update.
-        for (Node n: nodes) {
+        for (Joint n: Joints) {
             n.x = n.nextX;
             n.y = n.nextY;
         }
@@ -176,34 +176,34 @@ public class Jumpshot extends JPanel implements MouseInputListener {
     public void mouseDragged (MouseEvent e)
     {
 	Dimension D = this.getSize ();
-        if (currentNode < 0) {
+        if (currentJoint < 0) {
             return;
         }
-        Node node = (Node) nodes.get(currentNode);
-        int x = (int) node.x;
-        int y = D.height - (int) node.y;
+        Joint Joint = (Joint) Joints.get(currentJoint);
+        int x = (int) Joint.x;
+        int y = D.height - (int) Joint.y;
         int d = (int) distance (x, y, e.getX(), e.getY());
         if (d > radius) {
             // Mouse drag occurred too far.
             return;
         }
-        move (node, e.getX(), D.height-e.getY());
+        move (Joint, e.getX(), D.height-e.getY());
         this.repaint ();
     }
 
     public void mouseClicked (MouseEvent e)
     {
-	// Find out if any node got clicked.
+	// Find out if any Joint got clicked.
 	Dimension D = this.getSize ();
-        currentNode = -1;
-	for (int k=0; k<nodes.size(); k++) {
-	    Node node = (Node) nodes.get(k);
-            int x = (int) node.x;
-            int y = D.height - (int) node.y;
+        currentJoint = -1;
+	for (int k=0; k<Joints.size(); k++) {
+	    Joint Joint = (Joint) Joints.get(k);
+            int x = (int) Joint.x;
+            int y = D.height - (int) Joint.y;
 	    int d = (int) distance (x, y, e.getX(), e.getY());
 	    if (d < radius) {
 		// Click occured => change state.
-                currentNode = k;
+                currentJoint = k;
 		break;
 	    }
 	}
