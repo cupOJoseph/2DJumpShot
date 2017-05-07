@@ -25,13 +25,13 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
     //Jump Shot simulation global vars
     double jumpPower = -1;
-    double t1, t2, t3;
+    public double time1, time2, time3;
 
 
     // Radius of circle to draw.
     int radius = 10;
-    int numJoints = 6;
-    double linkSize = 200;
+    int numJoints = 3;
+    double linkSize = 100;
     int currentJoint = -1;
 
     String msg = "";
@@ -48,25 +48,29 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         // Make the Joints and place them in their initial positions.
         // Note: the  positions satisfy the link size.
         Joints = new Vector<Joint> ();
-        double heightOffset = linkSize * Math.sin(2*Math.PI*15.0/360.0);
-        double xOffset = linkSize * Math.cos(2*Math.PI*15.0/360.0);
+        //double heightOffset = linkSize * Math.sin(2*Math.PI*15.0/360.0);
+        //double xOffset = linkSize * Math.cos(2*Math.PI*15.0/360.0);
         for (int i=0; i<numJoints; i++) {
             Joint Joint = new Joint ();
             Joint.ID = i;
-            if (i % 2 == 0) {
+            /**if (i % 2 == 0) {
                 Joint.x = 0;
             }
             else {
                 Joint.x = xOffset;
             }
-            Joint.y = i * heightOffset;
+            Joint.y = i * heightOffset;**/
+            Joint.x = 800;
+            Joint.y = i*100;
+
             Joints.add (Joint);
         }
 
+        //TODO use obstacle detection at basket detection
         // The obstacles.
         obstacles = new Vector<Rectangle2D.Double>();
-        obstacles.add (new Rectangle2D.Double(260,300,140,50));
-        obstacles.add (new Rectangle2D.Double(350,240,125,120));
+        //obstacles.add (new Rectangle2D.Double(260,300,140,50));
+        //obstacles.add (new Rectangle2D.Double(350,240,125,120));
 
         // Target.
         target = new Joint ();
@@ -78,7 +82,11 @@ public class Jumpshot extends JPanel implements MouseInputListener {
     {
         super.paintComponent (g);
         Dimension D = this.getSize ();
-        g.setColor (Color.white);
+
+        //get that nice wood court color
+        Color court = new Color(255, 219, 158);
+
+        g.setColor (court);
         g.fillRect (0,0, D.width, D.height);
 
         // Draw Joints.
@@ -93,7 +101,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                 g.setColor (Color.blue);
             }
             g.fillOval (x-radius, y-radius, 2*radius, 2*radius);
-            g.setColor (Color.pink);
+            g.setColor (Color.black);
 
             Graphics2D g2 = (Graphics2D) g;
             if (prevX >= 0) {
@@ -104,13 +112,14 @@ public class Jumpshot extends JPanel implements MouseInputListener {
             prevY = y;
         }
 
-        // Draw net.
-        g.setColor (Color.red);
-        Graphics2D g2 = (Graphics2D) g;
-        for (Rectangle2D.Double R: obstacles) {
-            Rectangle2D.Double Rjava = new Rectangle2D.Double (R.x,D.height-R.y,R.width,R.height);
-            g2.fill (Rjava);
-        }
+        // Draw net and back board. TODO: better version 
+        g.setColor (Color.white);
+        Graphics2D g2 = (Graphics2D) g; //
+        Rectangle2D.Double net = new Rectangle2D.Double (0,300,120,20);
+        Rectangle2D.Double backboard = new Rectangle2D.Double (0, 220, 20, 80);
+
+        g2.fill (net);
+        g2.fill (backboard);
 
         // Target.
         g.setColor (Color.green);
@@ -120,7 +129,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
         // Message.
         g.setColor (Color.black);
-        msg = "# Illegal moves: " + numIllegalMoves;
+        msg = "# of baskets " + numIllegalMoves;
         g.drawString (msg, 20, 20);
     }
 
@@ -150,6 +159,11 @@ public class Jumpshot extends JPanel implements MouseInputListener {
             n.nextY = n.y + moveY;
             //System.out.println ("j=" + j + " d=" + d + " xD=" + xDiff + " yD=" + yDiff + " mX=" + moveX + " mY=" + moveY);
         }
+
+        //TODO move joints to the left.
+
+        //TODO reverse order joints so time1 doesn't effect position of other joints
+        //for joints
 
         // Check validity here: intersection w/ obstacles.
         Dimension D = this.getSize();
@@ -273,24 +287,33 @@ public class Jumpshot extends JPanel implements MouseInputListener {
             {
                 public void actionPerformed (ActionEvent a)
                 {
-                    System.out.println("Pressed Plan");
+                    jumpPower = Double.parseDouble(jp.getText());
+                    time1 = Double.parseDouble(t1.getText());
+                    time2 = Double.parseDouble(t2.getText());
+                    time3 = Double.parseDouble(t3.getText());
+
+                    System.out.println("Simulating");
+                    System.out.println("jump power = " + jumpPower);
+                    System.out.println("t1 = " + time1);
+                    System.out.println("t2 = " + time2);
+                    System.out.println("t3 = " + time3);
                 }
             }
         );
 
-	//nextB.setEnabled (false);
+    	//nextB.setEnabled (false);
 
-    panel.add (new JLabel ("    "));
-	JButton quitB = new JButton ("Quit");
-	quitB.addActionListener (
-	   new ActionListener () {
-		   public void actionPerformed (ActionEvent a)
-		   {
-		       System.exit(0);
-		   }
-           }
-        );
-	panel.add (quitB);
+        panel.add (new JLabel ("    "));
+    	JButton quitB = new JButton ("Quit");
+    	quitB.addActionListener (
+    	   new ActionListener () {
+    		   public void actionPerformed (ActionEvent a)
+    		   {
+    		       System.exit(0);
+    		   }
+               }
+            );
+    	panel.add (quitB);
 
         return panel;
     }
