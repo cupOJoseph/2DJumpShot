@@ -29,8 +29,8 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
 
     // Radius of circle to draw.
-    int radius = 10;
-    int numJoints = 3;
+    int radius = 20;
+    int numJoints = 4;
     double linkSize = 100;
     int currentJoint = -1;
 
@@ -61,7 +61,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
             }
             Joint.y = i * heightOffset;**/
             Joint.x = 800;
-            Joint.y = i*100;
+            Joint.y = (i*100) + 100;
 
             Joints.add (Joint);
         }
@@ -98,9 +98,37 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                 g.setColor (Color.cyan);
             }
             else {
-                g.setColor (Color.blue);
+                g.setColor (Color.black);
             }
-            g.fillOval (x-radius, y-radius, 2*radius, 2*radius);
+
+            if(Joint.ID == 0){
+                //bottom fill
+                g.fillOval (x-radius, y-radius, 3*radius, 2*radius);
+
+                //legs
+                g.fillRect (x-radius, y-radius, 15, 80);
+                g.fillRect (x-radius+40, y-radius, 15, 80);
+
+                //torso
+                g.fillRect (x-radius, y-radius, radius, radius);
+
+            }else if(Joint.ID == 1){
+                //regular fill
+                g.fillOval (x-radius, y-radius, 2*radius, 2*radius);
+            }else if(Joint.ID == 2){
+
+
+                g.fillOval (x-radius, y-radius, 2*radius, 2*radius);
+            }else{
+                //paint the end
+
+                g.fillOval (x-radius, y-radius, radius, radius);
+
+                //color Ball
+                g.setColor(Color.orange);
+                g.fillOval (x-radius, y-radius-20, 2*radius, 2*radius);
+            }
+
             g.setColor (Color.black);
 
             Graphics2D g2 = (Graphics2D) g;
@@ -112,7 +140,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
             prevY = y;
         }
 
-        // Draw net and back board. TODO: better version 
+        // Draw net and back board. TODO: better version
         g.setColor (Color.white);
         Graphics2D g2 = (Graphics2D) g; //
         Rectangle2D.Double net = new Rectangle2D.Double (0,300,120,20);
