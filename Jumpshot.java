@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -12,6 +11,10 @@ class Joint {
     int ID;
     double x,y;
     double nextX, nextY;
+
+    public String toString(){
+        return "ID: " + ID + "; x= " + x + "; y= " + y + ";";
+    }
 }
 
 
@@ -50,21 +53,51 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         Joints = new Vector<Joint> ();
         //double heightOffset = linkSize * Math.sin(2*Math.PI*15.0/360.0);
         //double xOffset = linkSize * Math.cos(2*Math.PI*15.0/360.0);
-        for (int i=0; i<numJoints; i++) {
+        /**for (int i=0; i<numJoints; i++) {
             Joint Joint = new Joint ();
             Joint.ID = i;
-            /**if (i % 2 == 0) {
+            if (i % 2 == 0) {
                 Joint.x = 0;
             }
             else {
                 Joint.x = xOffset;
             }
-            Joint.y = i * heightOffset;**/
+            Joint.y = i * heightOffset;
             Joint.x = 800;
             Joint.y = (i*100) + 100;
 
             Joints.add (Joint);
-        }
+        }**/
+
+
+        //Joint 1
+        Joint Joint1 = new Joint ();
+        Joint1.ID = 0;
+        Joint1.x = 823.9985946492372;
+        Joint1.y = 62.00498608067244;
+        Joints.add (Joint1);
+
+        //Joint 2
+        Joint Joint2 = new Joint ();
+        Joint2.ID = 1;
+        Joint2.x = 823.0;
+        Joint2.y = 162.0;
+        Joints.add (Joint2);
+
+        //Joint 3
+        Joint Joint3 = new Joint ();
+        Joint3.ID = 2;
+        Joint3.x = 780.5045263951948;
+        Joint3.y = 71.47853998579505;
+        Joints.add (Joint3);
+
+        //Joint 4
+        Joint Joint4 = new Joint ();
+        Joint4.ID = 3;
+        Joint4.x = 741.6714473628482;
+        Joint4.y = 163.63054470011215;
+        Joints.add (Joint4);
+
 
         //TODO use obstacle detection at basket detection
         // The obstacles.
@@ -188,12 +221,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
             //System.out.println ("j=" + j + " d=" + d + " xD=" + xDiff + " yD=" + yDiff + " mX=" + moveX + " mY=" + moveY);
         }
 
-        //TODO move joints to the left.
-
-        //TODO reverse order joints so time1 doesn't effect position of other joints
-        //for joints
-
-        // Check validity here: intersection w/ obstacles.
+        // Check validity here: intersection w/ obstacles. TODO use similar code to detect baskets
         Dimension D = this.getSize();
         for (int i=0; i<Joints.size()-1; i++) {
             Joint n = Joints.get(i);
@@ -325,6 +353,12 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                     System.out.println("t1 = " + time1);
                     System.out.println("t2 = " + time2);
                     System.out.println("t3 = " + time3);
+
+                    for (Joint joint : Joints) {
+                        System.out.println(joint.toString());
+                    }
+
+
                 }
             }
         );
