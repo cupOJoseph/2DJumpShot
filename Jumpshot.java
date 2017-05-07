@@ -30,6 +30,8 @@ public class Jumpshot extends JPanel implements MouseInputListener {
     double jumpPower = -1;
     public double time1, time2, time3;
 
+    //TODO add time
+    double clock = 0;
 
     // Radius of circle to draw.
     int radius = 20;
@@ -111,6 +113,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         target.y = 275;
     }
 
+    //TODO paint time, paint points
     public void paintComponent (Graphics g)
     {
         super.paintComponent (g);
@@ -194,6 +197,11 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         g.drawString (msg, 20, 20);
     }
 
+    //TODO add simulate method, called on simulate button press.
+    void sim(){
+        return;
+    }
+
 
     void move (Joint Joint, double nextX, double nextY)
     {
@@ -247,12 +255,8 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
     }
 
-
-
     //------------------------------------------------------------------
     // Mouse-listening - to flip state.
-
-
 
     public void mouseDragged (MouseEvent e)
     {
@@ -260,35 +264,38 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         if (currentJoint < 0) {
             return;
         }
+
         Joint Joint = (Joint) Joints.get(currentJoint);
         int x = (int) Joint.x;
         int y = D.height - (int) Joint.y;
         int d = (int) distance (x, y, e.getX(), e.getY());
+
         if (d > radius) {
             // Mouse drag occurred too far.
             return;
         }
+
         move (Joint, e.getX(), D.height-e.getY());
         this.repaint ();
     }
 
     public void mouseClicked (MouseEvent e)
     {
-	// Find out if any Joint got clicked.
-	Dimension D = this.getSize ();
-        currentJoint = -1;
-	for (int k=0; k<Joints.size(); k++) {
-	    Joint Joint = (Joint) Joints.get(k);
-            int x = (int) Joint.x;
-            int y = D.height - (int) Joint.y;
-	    int d = (int) distance (x, y, e.getX(), e.getY());
-	    if (d < radius) {
-		// Click occured => change state.
-                currentJoint = k;
-		break;
-	    }
-	}
-        this.repaint ();
+    	// Find out if any Joint got clicked.
+    	Dimension D = this.getSize ();
+            currentJoint = -1;
+    	for (int k=0; k<Joints.size(); k++) {
+    	    Joint Joint = (Joint) Joints.get(k);
+                int x = (int) Joint.x;
+                int y = D.height - (int) Joint.y;
+    	    int d = (int) distance (x, y, e.getX(), e.getY());
+    	    if (d < radius) {
+    		// Click occured => change state.
+                    currentJoint = k;
+    		break;
+    	    }
+    	}
+            this.repaint ();
     }
 
     public void mouseMoved (MouseEvent e) {}
