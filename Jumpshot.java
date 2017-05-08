@@ -42,7 +42,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
     int numIllegalMoves = 0;
 
     //define a new ball located at joint 2
-    ball testBall = new ball(741.6714473628482,163.63054470011215,0.0,0.0);
+    ball testBall = new ball(741.6714473628482,163.63054470011215,0.0,jumpPower);
     physics testPhysics = new physics();
 
 
