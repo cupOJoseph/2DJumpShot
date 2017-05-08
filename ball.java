@@ -12,9 +12,17 @@ public class ball  {
 	/**
 	* Default empty ball constructor
 	*/
-	public ball() {
-		super();
-	}
+  public ball(double currentX, double currentY, double current_velX, double current_velY){
+    // general ball constructor
+    this.currentX = currentX;
+    this.currentY = currentY;
+    this.current_velX = current_velX;
+    this.current_velY = current_velY;
+    this.nextX = -1;
+    this.nextY = -1;
+    this.next_velX = -1;
+    this.next_velY = -1;
+  }
 
 	public double getCurrentX() {
 		return currentX;

@@ -20,6 +20,7 @@ class Joint {
 
 public class Jumpshot extends JPanel implements MouseInputListener {
 
+
     // Store Joint instances.
     Vector<Joint> Joints;
     Vector<Rectangle2D.Double> obstacles;
@@ -39,6 +40,11 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
     String msg = "";
     int numIllegalMoves = 0;
+
+    //define a new ball located at joint 2
+    ball testBall = new ball(741.6714473628482,163.63054470011215,0.0,0.0);
+    physics testPhysics = new physics();
+
 
     public Jumpshot ()
     {
@@ -243,6 +249,10 @@ public class Jumpshot extends JPanel implements MouseInputListener {
             n.x = n.nextX;
             n.y = n.nextY;
         }
+
+        //update ball
+
+        testBall = testPhysics.update(testBall);
 
 
     }
