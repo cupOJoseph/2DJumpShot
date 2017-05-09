@@ -11,6 +11,8 @@ class Joint {
     int ID;
     double x,y;
     double nextX, nextY;
+    double xV;
+    double yV;
 
     public String toString(){
         return "ID: " + ID + "; x= " + x + "; y= " + y + ";";
@@ -33,7 +35,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
     double clock = 0;            // Track the current time.
     int sleepTime = 100;         // For animation.
-    double timeStep = 0.1;    // Advance the clock by this much.
+    double timeStep = sleepTime;    // Advance the clock by this much.
     int maxtime = 60;
 
     // Radius of circle to draw.
@@ -189,14 +191,14 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         g2.fill (backboard);
 
         // Target.
-        g.setColor (Color.green);
-        int x = (int) target.x;
-        int y = D.height - (int) target.y;
-        g.fillOval (x-radius, y-radius, 2*radius, 2*radius);
+        //g.setColor (Color.green);
+        //int x = (int) target.x;
+        //int y = D.height - (int) target.y;
+        //g.fillOval (x-radius, y-radius, 2*radius, 2*radius);
 
         // Message.
         g.setColor (Color.black);
-        msg = "# of baskets " + numIllegalMoves + "\n     " + "Time : " + clock;
+        msg = "# of baskets " + numIllegalMoves + "\n     " + "Time : " + clock/1000;
         g.drawString (msg, 20, 20);
     }
 
@@ -238,21 +240,61 @@ public class Jumpshot extends JPanel implements MouseInputListener {
     void runSimulation (int stopTime){
         System.out.println("Starting sim...");
 
+
         while(!stopped){
+        // First pause the thread.
+            try {
+                Thread.sleep (sleepTime);
+            }
+                catch (InterruptedException e) {
+            }
+
+            clock += timeStep;
 
 
             if(clock > stopTime){
                 stopped = true;
                 break;
             }
+            double t = clock / 1000;
+            //use t for time
 
-            clock += timeStep;
 
             //TODO do stuff.
+            for (Joint j : Joints ) {
+                if(j.ID == 0){
+                    //initial jump
+                    if(t < jumpPower/2){
+                        System.out.println("moving 0 up");
+                        move(j, j.x, j.y + 1);
+                    }
+                    else if(j.y > 60){
+                        System.out.println("moving 0 down");
+                        move(j, j.x, j.y - 1);
+                    }
+
+                }
+                else if(j.ID == 1){
+                    //The head, dont move too much
+                }
+                else if(j.ID == 2){
+                    if (t >= time1 && t < time1 + 4) {
+                        System.out.println("moving 1 up");
+                        move(j, j.x-0.5, j.y + 5);
+                    }else if(j.y >= 165 && t > time1){
+                        System.out.println("moving 1 down");
+                        move(j, j.x, j.y - 1);
+                    }
+                }
+                else if(j.ID == 3){
+
+                }
+            }
+
 
             repaint();
-        }
 
+        }//end while
     }
 
 

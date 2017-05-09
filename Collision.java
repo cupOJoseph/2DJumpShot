@@ -40,7 +40,7 @@ public class Collision {
 
   Ball update(Ball ball){
     //return an updated ball
-    updateStatus();
+    bounceOffWall();
     ball.setNextX(this.nextX);
     ball.setNextY(this.nextY);
     ball.setNext_velX(this.next_velX);
@@ -49,14 +49,18 @@ public class Collision {
 
   }
 
-  void updateStatus(){
-    //this method will update the status of the ball
 
-    //if the ball hits the target
-    if(ball.goal()==true){
+  void bounceOffWall(){
+    //initial position
+    if(goal()==true||collision>3){
     goalPoints++;
-    init(ball);
+    this.nextX = 50;
+    this.nextY = 10;
+    this.next_velX = 0;
+    this.next_velY = -9.8;
+    //init(ball);
     }
+<<<<<<< HEAD
 
     //see if the ball collides with the wall
     bounceOffWall();
@@ -65,31 +69,42 @@ public class Collision {
 
 
   void bounceOfflWall(){
+=======
+>>>>>>> 505a38d19c2f76d9bd1c9c23e4e065502f2c3825
     //bounce off the left wall
-    if(ball.getNextX<box.minX+10){
+    //assume ball has a radius of 10
+    if(this.nextX<this.minX+10){
       this.next_velX = (-1)*this.current_velX;
-      this.nextX = box.minX+10;
+      this.nextX = this.minX+10;
+      this.next_velY = this.current_velY - 0.1 * 9.8;
+      this.nextY = this.currentY + 0.1 * current_velY;
       collision++;
 
     }
     //bounce off the right wall
-    if(ball.getNextX>box.maxX-10){
+    if(this.nextX>this.maxX-10){
       this.next_velX = (-1)*this.current_velX;
-      this.nextX = box.maxX-10;
+      this.nextX = this.maxX-10;
+      this.next_velY = this.current_velY - 0.1 * 9.8;
+      this.nextY = this.currentY + 0.1 * current_velY;
       collision++;
     }
 
     //bounce off the floor
-    if(ball.getNextY<box.minY+10){
+    if(this.nextY<this.minY+10){
     this.next_velY = (-1)*this.current_velY - 0.1 * 9.8;
-    this.nextY = box.minY+10;
+    this.nextY = this.minY+10;
+    this.next_velX = this.current_velX;
+    this.nextX = this.currentX + 0.1 * current_velX;
     collision++;
 
     }
     //bounce off the ceiling
-    if(ball.getNextY<box.maxY-10){
+    if(this.nextY<this.maxY-10){
     this.next_velY = (-1)*this.current_velY - 0.1 * 9.8;
-    this.nextY = box.maxY-10;
+    this.nextY = this.maxY-10;
+    this.next_velX = this.current_velX;
+    this.nextX = this.currentX + 0.1 * current_velX;
     collision++;
     }
 
@@ -113,8 +128,13 @@ public class Collision {
   //Thus if the ball hit within this range, we say that the ball reaches its goal
   //This method checks whether the ball hit the goal
   public boolean goal(){
+<<<<<<< HEAD
     if(ball.getCurrentX==0&&ball.getCurrentY>30&&ball.getCurrentY<40){
 
+=======
+    if(this.currentX==0&&this.currentY>30&&this.currentY<40){
+      
+>>>>>>> 505a38d19c2f76d9bd1c9c23e4e065502f2c3825
       return true;
 
     }
