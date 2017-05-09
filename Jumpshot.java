@@ -49,7 +49,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
     int numIllegalMoves = 0;
 
     //define a new ball located at joint 2
-    ball testBall = new ball(741.6714473628482,163.63054470011215,0.0,jumpPower);
+    ball testBall = new ball(741.6714473628482,163.63054470011215,0.0,0.0);
     physics testPhysics = new physics();
 
     public Jumpshot ()
@@ -299,8 +299,16 @@ public class Jumpshot extends JPanel implements MouseInputListener {
             }
 
             //update ball
+            if (t<=time3) {
+              Joint j = Joints.elementAt(3);
+              testBall.setCurrentX(j.x);
+              testBall.setCurrentY(j.y);
+            }
 
-            testBall = testPhysics.update(testBall);
+            if (t>time3) {
+              // after time3 the ball will shot at 45 degree
+              testBall = testPhysics.update(testBall);
+            }
 
 
             repaint();

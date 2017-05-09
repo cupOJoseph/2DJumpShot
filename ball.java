@@ -18,10 +18,6 @@ public class ball  {
     this.currentY = currentY;
     this.current_velX = current_velX;
     this.current_velY = current_velY;
-    this.nextX = -1;
-    this.nextY = -1;
-    this.next_velX = -1;
-    this.next_velY = -1;
   }
 
 	public double getCurrentX() {
