@@ -118,7 +118,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         target.y = 275;
     }
 
-    //TODO paint time, paint points
+    //
     public void paintComponent (Graphics g)
     {
         super.paintComponent (g);
@@ -234,7 +234,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
     void simulate ()
     {
-           runSimulation (Integer.MAX_VALUE);
+           runSimulation (50*1000);
     }
 
     void runSimulation (int stopTime){
@@ -253,6 +253,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
 
             if(clock > stopTime){
+                System.out.println("Out of time.");
                 stopped = true;
                 break;
             }
@@ -265,11 +266,11 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                 if(j.ID == 0){
                     //initial jump
                     if(t < jumpPower/2){
-                        System.out.println("moving 0 up");
+                        //System.out.println("moving 0 up");
                         move(j, j.x, j.y + 1);
                     }
                     else if(j.y > 60){
-                        System.out.println("moving 0 down");
+                        //System.out.println("moving 0 down");
                         move(j, j.x, j.y - 1);
                     }
 
@@ -279,18 +280,27 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                 }
                 else if(j.ID == 2){
                     if (t >= time1 && t < time1 + 4) {
-                        System.out.println("moving 1 up");
+                        //System.out.println("moving 1 up");
                         move(j, j.x-0.5, j.y + 5);
                     }else if(j.y >= 165 && t > time1){
-                        System.out.println("moving 1 down");
+                    //System.out.println("moving 1 down");
                         move(j, j.x, j.y - 1);
                     }
                 }
                 else if(j.ID == 3){
-
+                    if (t >= time2 && t < time2 + 4) {
+                        //System.out.println("moving 3 up");
+                        move(j, j.x-1, j.y + 2);
+                    }else if(j.y >= 170 && t > time2 && Joints.firstElement().y > 60){
+                    //System.out.println("moving 3 down");
+                        move(j, j.x, j.y - 1);
+                    }
                 }
             }
-
+            //Move Ball Physics
+            if(t == time3){
+                System.out.println("Release ball.");
+            }
 
             repaint();
 
