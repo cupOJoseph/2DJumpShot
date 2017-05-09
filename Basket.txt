@@ -1,0 +1,26 @@
+The net:
+coordinate: (0,220)
+length: 20
+height: 80
+
+The backboard:
+coordinate: (0,280)
+length: 100
+height: 20
+
+top net:(20, 280) ~ (100, 280)
+bottom net:(20,300) ~ (100, 300)
+
+score:
+if the ball’s position
+hittop: (40, 260) ~ (80, 260)
+hitbottom: (40,320) ~ (80, 320)
+
+touchtop = false
+touchbottom = false
+if touchtop = true ->
+	goal++ 
+	touchtop = false
+	initialize
+if touchbottom = true ->
+	bounce
