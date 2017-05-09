@@ -45,7 +45,7 @@ public class physics {
     //this method will update the status of the ball
     this.currentX = this.currentX - 0.1 * current_velX;
     this.currentY = this.currentY + 0.1 * current_velY;
-    this.current_velX = this.current_velX + 0.1 * 9.8;
-    this.current_velY = this.current_velY + 0.1 * 9.8;
+    this.current_velX = this.current_velX;
+    this.current_velY = this.current_velY - 0.1 * 9.8;
   }
 }
