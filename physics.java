@@ -94,7 +94,7 @@ public class physics {
     this.current_velY = (-1)*this.current_velY - 0.1 * 9.8;
     this.currentY = 1000 + 0.1*current_velY;
     this.current_velX = this.current_velX;
-    this.currentX = this.currentX + 0.1 * current_velX;
+    this.currentX = this.currentX - 0.1 * current_velX;
 
     //collision++;
 
@@ -107,7 +107,7 @@ public class physics {
     this.currentY = 20+ 0.1 * current_velY;
 
     this.current_velX = this.current_velX;
-    this.currentX = this.currentX + 0.1 * current_velX;
+    this.currentX = this.currentX - 0.1 * current_velX;
     //collision++;
     }
 
