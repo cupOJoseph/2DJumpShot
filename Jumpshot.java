@@ -298,15 +298,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                     }
                 }
             }
-            //Move Ball Physics
-            if(t == time3){
-                System.out.println("Release ball.");
-
-                //TODO this code
-            }else{
-                //ball location is joint 3
-                Joint j = Joints.elementAt(3);
-            }
+    
 
             repaint();
 
