@@ -30,8 +30,11 @@ public class Jumpshot extends JPanel implements MouseInputListener {
     double jumpPower = -1;
     public double time1, time2, time3;
 
-    //TODO add time
-    double clock = 0;
+
+    double clock = 0;            // Track the current time.
+    int sleepTime = 100;         // For animation.
+    double timeStep = 0.1;    // Advance the clock by this much.
+    int maxtime = 60;
 
     // Radius of circle to draw.
     int radius = 20;
@@ -193,13 +196,63 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
         // Message.
         g.setColor (Color.black);
-        msg = "# of baskets " + numIllegalMoves;
+        msg = "# of baskets " + numIllegalMoves + "\n     " + "Time : " + clock;
         g.drawString (msg, 20, 20);
     }
 
-    //TODO add simulate method, called on simulate button press.
-    void sim(){
-        return;
+
+    boolean stopped = true;
+
+    void go(){
+        try {
+
+            //commented out unused fields.
+            // Read angle and mass from textfields.
+            //alpha = Double.parseDouble (angleField.getText());
+            //m = Double.parseDouble (massField.getText());
+            stopped = false;
+            // Fire off the simulation thread.
+            start ();
+        }
+        catch (Exception e) {
+        }
+    }
+
+    void start ()
+    {
+        // Make a thread and run a simulation (whenever "Go" is clicked).
+           Thread t = new Thread () {
+            public void run ()
+              {
+                  simulate ();
+              }
+           };
+           t.start ();
+    }
+
+    void simulate ()
+    {
+           runSimulation (Integer.MAX_VALUE);
+    }
+
+    void runSimulation (int stopTime){
+        System.out.println("Starting sim...");
+
+        while(!stopped){
+
+
+            if(clock > stopTime){
+                stopped = true;
+                break;
+            }
+
+            clock += timeStep;
+
+            //TODO do stuff.
+
+            repaint();
+        }
+
     }
 
 
@@ -229,7 +282,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
             //System.out.println ("j=" + j + " d=" + d + " xD=" + xDiff + " yD=" + yDiff + " mX=" + moveX + " mY=" + moveY);
         }
 
-        // Check validity here: intersection w/ obstacles. TODO use similar code to detect baskets
+        // Check validity here: intersection w/ obstacles.  use similar code to detect baskets
         Dimension D = this.getSize();
         for (int i=0; i<Joints.size()-1; i++) {
             Joint n = Joints.get(i);
@@ -260,7 +313,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
     public void mouseDragged (MouseEvent e)
     {
-	Dimension D = this.getSize ();
+	       Dimension D = this.getSize ();
         if (currentJoint < 0) {
             return;
         }
@@ -365,6 +418,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                         System.out.println(joint.toString());
                     }
 
+                    go ();
 
                 }
             }

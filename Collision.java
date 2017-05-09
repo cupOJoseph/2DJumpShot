@@ -31,14 +31,14 @@ public class Collision {
     this.next_velX = ball.next_velX;
   }
 
-  void init (box box){
+  void init (Box box){
     this.minX = box.minX;
     this.maxX = box.maxX;
     this.minY = box.minY;
     this.maxY = box.maxY;
   }
 
-  ball update(ball ball){
+  Ball update(Ball ball){
     //return an updated ball
     updateStatus();
     ball.setNextX(this.nextX);
@@ -60,7 +60,7 @@ public class Collision {
 
     //see if the ball collides with the wall
     bounceOffWall();
-    
+
   }
 
 
@@ -78,7 +78,7 @@ public class Collision {
       this.nextX = box.maxX-10;
       collision++;
     }
- 
+
     //bounce off the floor
     if(ball.getNextY<box.minY+10){
     this.next_velY = (-1)*this.current_velY - 0.1 * 9.8;
@@ -92,21 +92,21 @@ public class Collision {
     this.nextY = box.maxY-10;
     collision++;
     }
-    
+
     else{
     this.next_velX = this.current_velX;
     this.next_velY = this.current_velY - 0.1 * 9.8;
     this.nextX = this.currentX + 0.1 * current_velX;
     this.nextY = this.currentY + 0.1 * current_velY;
     }
-    
+
     }
    public double getSpeed(){
     return (double)Math.sqrt(this.current_velX * this.current_velX + this.current_velY * this.current_velY);
   }
 
    public double getAngle(){
-    return (double)Math.toDegrees(Math.atan2(-this.current_velY, this.current_velX));  
+    return (double)Math.toDegrees(Math.atan2(-this.current_velY, this.current_velX));
   }
 
   //suppose the goal is on the left wall with a range from (0,30) to (0,40)
@@ -114,7 +114,7 @@ public class Collision {
   //This method checks whether the ball hit the goal
   public boolean goal(){
     if(ball.getCurrentX==0&&ball.getCurrentY>30&&ball.getCurrentY<40){
-      
+
       return true;
 
     }
