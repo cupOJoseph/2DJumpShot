@@ -45,9 +45,11 @@ public class Jumpshot extends JPanel implements MouseInputListener {
     double linkSize = 100;
     int currentJoint = -1;
 
-    String msg = "";
-    int numIllegalMoves = 0;
 
+    boolean thrown = false;
+
+    String msg = "";
+    int numOfBasket = 0;
     //define a new ball located at joint 2
     ball testBall = new ball(341.6714473628482,163.63054470011215,25,50);
     physics testPhysics = new physics();
@@ -172,7 +174,11 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
                 //color Ball
                 g.setColor(Color.orange);
-                g.fillOval  ((int)Math.ceil(testBall.getCurrentX()),D.height-(int)Math.ceil(testBall.getCurrentY())-radius-20,2*radius, 2*radius);
+                if (thrown) {
+                  g.fillOval  ((int)Math.ceil(testBall.getCurrentX())-radius,D.height-(int)Math.ceil( testBall.getCurrentY())-radius-20,2*radius, 2*radius);
+                }else{
+                  g.fillOval  (x-radius,y-radius-20,2*radius, 2*radius);
+                }
 
 
             }
@@ -205,7 +211,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
         // Message.
         g.setColor (Color.black);
-        msg = "# of baskets " + numIllegalMoves + "\n     " + "Time : " + clock/1000;
+        msg = "# of baskets " + numOfBasket + "\n     " + "Time : " + clock/1000;
         g.drawString (msg, 20, 20);
     }
 
@@ -307,8 +313,16 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
             if (t>time3) {
               // after time3 the ball will shot at 45 degree
+              thrown = true;
               testBall = testPhysics.update(testBall);
             }
+            //goal detection
+
+            if (testBall.getCurrentX()<=100 && testBall.getCurrentX()>=15 && testBall.getCurrentY()>= 300 && testBall.getCurrentY()<= 360) {
+              numOfBasket = 1;
+              System.out.println("the current X of ball is : "+testBall.getCurrentX()+"the current Y of ball is: "+testBall.getCurrentY());
+            }
+
 
 
             repaint();
@@ -353,9 +367,9 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                 // See if R intersects line.
                 Rectangle2D.Double Rjava = new Rectangle2D.Double (R.x,D.height-R.y,R.width,R.height);
 
-                if (Rjava.intersectsLine (L)) {
-                    numIllegalMoves ++;
-                }
+                // if (Rjava.intersectsLine (L)) {
+                //     numOfBasket ++;
+                // }
             }
         }
 
