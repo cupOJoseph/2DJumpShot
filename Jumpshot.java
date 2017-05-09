@@ -185,10 +185,11 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         // Draw net and back board. TODO: better version
         g.setColor (Color.white);
         Graphics2D g2 = (Graphics2D) g; //
-        Rectangle2D.Double net = new Rectangle2D.Double (0,300,120,20);
+        Rectangle2D.Double net = new Rectangle2D.Double (20,280,100,20);
         Rectangle2D.Double backboard = new Rectangle2D.Double (0, 220, 20, 80);
 
         g2.fill (net);
+        g.setColor(Color.blue);
         g2.fill (backboard);
 
         // Target.
@@ -298,7 +299,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                     }
                 }
             }
-    
+
 
             repaint();
 
