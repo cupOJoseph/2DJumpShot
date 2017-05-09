@@ -38,7 +38,7 @@ public class Collision {
     this.maxY = box.maxY;
   }
 
-  ball update(ball ball){
+  Ball update(Ball ball){
     //return an updated ball
     bounceOffWall();
     ball.setNextX(this.nextX);
@@ -64,6 +64,17 @@ public class Collision {
     this.next_velY = -9.8;
     //init(ball);
     }
+<<<<<<< HEAD
+
+    //see if the ball collides with the wall
+    bounceOffWall();
+
+  }
+
+
+  void bounceOfflWall(){
+=======
+>>>>>>> 505a38d19c2f76d9bd1c9c23e4e065502f2c3825
     //bounce off the left wall
 <<<<<<< HEAD
     //assume ball has a radius of 10
@@ -91,7 +102,7 @@ public class Collision {
 >>>>>>> origin/Physics
       collision++;
     }
- 
+
     //bounce off the floor
     if(this.nextY<this.minY+10){
     this.next_velY = (-1)*this.current_velY - 0.1 * 9.8;
@@ -115,29 +126,34 @@ public class Collision {
 >>>>>>> origin/Physics
     collision++;
     }
-    
+
     else{
     this.next_velX = this.current_velX;
     this.next_velY = this.current_velY - 0.1 * 9.8;
     this.nextX = this.currentX + 0.1 * current_velX;
     this.nextY = this.currentY + 0.1 * current_velY;
     }
-    
+
     }
    public double getSpeed(){
     return (double)Math.sqrt(this.current_velX * this.current_velX + this.current_velY * this.current_velY);
   }
 
    public double getAngle(){
-    return (double)Math.toDegrees(Math.atan2(-this.current_velY, this.current_velX));  
+    return (double)Math.toDegrees(Math.atan2(-this.current_velY, this.current_velX));
   }
 
   //suppose the goal is on the left wall with a range from (0,30) to (0,40)
   //Thus if the ball hit within this range, we say that the ball reaches its goal
   //This method checks whether the ball hit the goal
   public boolean goal(){
+<<<<<<< HEAD
+    if(ball.getCurrentX==0&&ball.getCurrentY>30&&ball.getCurrentY<40){
+
+=======
     if(this.currentX==0&&this.currentY>30&&this.currentY<40){
       
+>>>>>>> 505a38d19c2f76d9bd1c9c23e4e065502f2c3825
       return true;
 
     }

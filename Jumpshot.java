@@ -11,6 +11,8 @@ class Joint {
     int ID;
     double x,y;
     double nextX, nextY;
+    double xV;
+    double yV;
 
     public String toString(){
         return "ID: " + ID + "; x= " + x + "; y= " + y + ";";
@@ -31,6 +33,11 @@ public class Jumpshot extends JPanel implements MouseInputListener {
     double jumpPower = -1;
     public double time1, time2, time3;
 
+
+    double clock = 0;            // Track the current time.
+    int sleepTime = 100;         // For animation.
+    double timeStep = sleepTime;    // Advance the clock by this much.
+    int maxtime = 60;
 
     // Radius of circle to draw.
     int radius = 20;
@@ -117,6 +124,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         target.y = 275;
     }
 
+    //TODO paint time, paint points
     public void paintComponent (Graphics g)
     {
         super.paintComponent (g);
@@ -189,15 +197,110 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         g2.fill (backboard);
 
         // Target.
-        g.setColor (Color.green);
-        int x = (int) target.x;
-        int y = D.height - (int) target.y;
-        g.fillOval (x-radius, y-radius, 2*radius, 2*radius);
+        //g.setColor (Color.green);
+        //int x = (int) target.x;
+        //int y = D.height - (int) target.y;
+        //g.fillOval (x-radius, y-radius, 2*radius, 2*radius);
 
         // Message.
         g.setColor (Color.black);
-        msg = "# of baskets " + numIllegalMoves;
+        msg = "# of baskets " + numIllegalMoves + "\n     " + "Time : " + clock/1000;
         g.drawString (msg, 20, 20);
+    }
+
+
+    boolean stopped = true;
+
+    void go(){
+        try {
+
+            //commented out unused fields.
+            // Read angle and mass from textfields.
+            //alpha = Double.parseDouble (angleField.getText());
+            //m = Double.parseDouble (massField.getText());
+            stopped = false;
+            // Fire off the simulation thread.
+            start ();
+        }
+        catch (Exception e) {
+        }
+    }
+
+    void start ()
+    {
+        // Make a thread and run a simulation (whenever "Go" is clicked).
+           Thread t = new Thread () {
+            public void run ()
+              {
+                  simulate ();
+              }
+           };
+           t.start ();
+    }
+
+    void simulate ()
+    {
+           runSimulation (Integer.MAX_VALUE);
+    }
+
+    void runSimulation (int stopTime){
+        System.out.println("Starting sim...");
+
+
+        while(!stopped){
+        // First pause the thread.
+            try {
+                Thread.sleep (sleepTime);
+            }
+                catch (InterruptedException e) {
+            }
+
+            clock += timeStep;
+
+
+            if(clock > stopTime){
+                stopped = true;
+                break;
+            }
+            double t = clock / 1000;
+            //use t for time
+
+
+            //TODO do stuff.
+            for (Joint j : Joints ) {
+                if(j.ID == 0){
+                    //initial jump
+                    if(t < jumpPower/2){
+                        System.out.println("moving 0 up");
+                        move(j, j.x, j.y + 1);
+                    }
+                    else if(j.y > 60){
+                        System.out.println("moving 0 down");
+                        move(j, j.x, j.y - 1);
+                    }
+
+                }
+                else if(j.ID == 1){
+                    //The head, dont move too much
+                }
+                else if(j.ID == 2){
+                    if (t >= time1 && t < time1 + 4) {
+                        System.out.println("moving 1 up");
+                        move(j, j.x-0.5, j.y + 5);
+                    }else if(j.y >= 165 && t > time1){
+                        System.out.println("moving 1 down");
+                        move(j, j.x, j.y - 1);
+                    }
+                }
+                else if(j.ID == 3){
+
+                }
+            }
+
+
+            repaint();
+
+        }//end while
     }
 
 
@@ -227,7 +330,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
             //System.out.println ("j=" + j + " d=" + d + " xD=" + xDiff + " yD=" + yDiff + " mX=" + moveX + " mY=" + moveY);
         }
 
-        // Check validity here: intersection w/ obstacles. TODO use similar code to detect baskets
+        // Check validity here: intersection w/ obstacles.  use similar code to detect baskets
         Dimension D = this.getSize();
         for (int i=0; i<Joints.size()-1; i++) {
             Joint n = Joints.get(i);
@@ -257,48 +360,47 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
     }
 
-
-
     //------------------------------------------------------------------
     // Mouse-listening - to flip state.
 
-
-
     public void mouseDragged (MouseEvent e)
     {
-	Dimension D = this.getSize ();
+	       Dimension D = this.getSize ();
         if (currentJoint < 0) {
             return;
         }
+
         Joint Joint = (Joint) Joints.get(currentJoint);
         int x = (int) Joint.x;
         int y = D.height - (int) Joint.y;
         int d = (int) distance (x, y, e.getX(), e.getY());
+
         if (d > radius) {
             // Mouse drag occurred too far.
             return;
         }
+
         move (Joint, e.getX(), D.height-e.getY());
         this.repaint ();
     }
 
     public void mouseClicked (MouseEvent e)
     {
-	// Find out if any Joint got clicked.
-	Dimension D = this.getSize ();
-        currentJoint = -1;
-	for (int k=0; k<Joints.size(); k++) {
-	    Joint Joint = (Joint) Joints.get(k);
-            int x = (int) Joint.x;
-            int y = D.height - (int) Joint.y;
-	    int d = (int) distance (x, y, e.getX(), e.getY());
-	    if (d < radius) {
-		// Click occured => change state.
-                currentJoint = k;
-		break;
-	    }
-	}
-        this.repaint ();
+    	// Find out if any Joint got clicked.
+    	Dimension D = this.getSize ();
+            currentJoint = -1;
+    	for (int k=0; k<Joints.size(); k++) {
+    	    Joint Joint = (Joint) Joints.get(k);
+                int x = (int) Joint.x;
+                int y = D.height - (int) Joint.y;
+    	    int d = (int) distance (x, y, e.getX(), e.getY());
+    	    if (d < radius) {
+    		// Click occured => change state.
+                    currentJoint = k;
+    		break;
+    	    }
+    	}
+            this.repaint ();
     }
 
     public void mouseMoved (MouseEvent e) {}
@@ -368,6 +470,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                         System.out.println(joint.toString());
                     }
 
+                    go ();
 
                 }
             }
