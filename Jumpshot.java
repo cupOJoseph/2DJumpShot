@@ -52,7 +52,6 @@ public class Jumpshot extends JPanel implements MouseInputListener {
     ball testBall = new ball(741.6714473628482,163.63054470011215,0.0,jumpPower);
     physics testPhysics = new physics();
 
-
     public Jumpshot ()
     {
         this.addMouseListener (this);
@@ -173,7 +172,9 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
                 //color Ball
                 g.setColor(Color.orange);
-                g.fillOval (x-radius, y-radius-20, 2*radius, 2*radius);
+                g.fillOval  ((int)Math.ceil(testBall.getCurrentX()),D.height-(int)Math.ceil(testBall.getCurrentY())-radius-20,2*radius, 2*radius);
+
+
             }
 
             g.setColor (Color.black);
@@ -297,6 +298,10 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                 }
             }
 
+            //update ball
+
+            testBall = testPhysics.update(testBall);
+
 
             repaint();
 
@@ -352,10 +357,6 @@ public class Jumpshot extends JPanel implements MouseInputListener {
             n.x = n.nextX;
             n.y = n.nextY;
         }
-
-        //update ball
-
-        testBall = testPhysics.update(testBall);
 
 
     }
