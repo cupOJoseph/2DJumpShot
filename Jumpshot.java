@@ -1,4 +1,4 @@
-import java.awt.*;
+eimport java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import javax.swing.*;
@@ -49,7 +49,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
     int numIllegalMoves = 0;
 
     //define a new ball located at joint 2
-    ball testBall = new ball(741.6714473628482,163.63054470011215,0.0,0.0);
+    ball testBall = new ball(341.6714473628482,163.63054470011215,25,50);
     physics testPhysics = new physics();
 
     public Jumpshot ()
@@ -85,28 +85,28 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         //Joint 1
         Joint Joint1 = new Joint ();
         Joint1.ID = 0;
-        Joint1.x = 823.9985946492372;
+        Joint1.x = 423.9985946492372;
         Joint1.y = 62.00498608067244;
         Joints.add (Joint1);
 
         //Joint 2
         Joint Joint2 = new Joint ();
         Joint2.ID = 1;
-        Joint2.x = 823.0;
+        Joint2.x = 423.0;
         Joint2.y = 162.0;
         Joints.add (Joint2);
 
         //Joint 3
         Joint Joint3 = new Joint ();
         Joint3.ID = 2;
-        Joint3.x = 780.5045263951948;
+        Joint3.x = 380.5045263951948;
         Joint3.y = 71.47853998579505;
         Joints.add (Joint3);
 
         //Joint 4
         Joint Joint4 = new Joint ();
         Joint4.ID = 3;
-        Joint4.x = 741.6714473628482;
+        Joint4.x = 341.6714473628482;
         Joint4.y = 163.63054470011215;
         Joints.add (Joint4);
 
@@ -123,64 +123,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         target.y = 275;
     }
 
-    //Ball bounces
-    /**void bounceOffWall(){
-            //initial position
-        if(goal()==true||collision>3){
-        goalPoints++;
-        this.nextX = 50;
-        this.nextY = 10;
-        this.next_velX = 0;
-        this.next_velY = -9.8;
-        //init(ball);
-        }
-        //bounce off the left wall
-        //assume ball has a radius of 10
-        if(this.nextX<this.minX+20){
-          this.next_velX = (-1)*this.current_velX;
-          this.nextX = this.minX+20;
-          this.next_velY = this.current_velY - 0.1 * 9.8;
-          this.nextY = this.currentY + 0.1 * current_velY;
-          collision++;
-
-        }
-        //bounce off the right wall
-        if(this.nextX>this.maxX-20){
-          this.next_velX = (-1)*this.current_velX;
-          this.nextX = this.maxX-20;
-          this.next_velY = this.current_velY - 0.1 * 9.8;
-          this.nextY = this.currentY + 0.1 * current_velY;
-          collision++;
-        }
-
-        //bounce off the floor
-        if(this.nextY<this.minY+20){
-        this.next_velY = (-1)*this.current_velY - 0.1 * 9.8;
-        this.nextY = this.minY+20;
-        this.next_velX = this.current_velX;
-        this.nextX = this.currentX + 0.1 * current_velX;
-        collision++;
-
-        }
-        //bounce off the ceiling
-        if(this.nextY<this.maxY-20){
-        this.next_velY = (-1)*this.current_velY - 0.1 * 9.8;
-        this.nextY = this.maxY-20;
-        this.next_velX = this.current_velX;
-        this.nextX = this.currentX + 0.1 * current_velX;
-        collision++;
-        }
-
-        else{
-        this.next_velX = this.current_velX;
-        this.next_velY = this.current_velY - 0.1 * 9.8;
-        this.nextX = this.currentX + 0.1 * current_velX;
-        this.nextY = this.currentY + 0.1 * current_velY;
-        }
-
-    }**/
-
-    //
+    //TODO paint time, paint points
     public void paintComponent (Graphics g)
     {
         super.paintComponent (g);
@@ -234,7 +177,6 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
             }
 
-
             g.setColor (Color.black);
 
             Graphics2D g2 = (Graphics2D) g;
@@ -249,11 +191,10 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         // Draw net and back board. TODO: better version
         g.setColor (Color.white);
         Graphics2D g2 = (Graphics2D) g; //
-        Rectangle2D.Double net = new Rectangle2D.Double (20,280,100,20);
+        Rectangle2D.Double net = new Rectangle2D.Double (0,300,120,20);
         Rectangle2D.Double backboard = new Rectangle2D.Double (0, 220, 20, 80);
 
         g2.fill (net);
-        g.setColor(Color.blue);
         g2.fill (backboard);
 
         // Target.
@@ -300,7 +241,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
     void simulate ()
     {
-           runSimulation (50*1000);
+           runSimulation (Integer.MAX_VALUE);
     }
 
     void runSimulation (int stopTime){
@@ -319,7 +260,6 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
 
             if(clock > stopTime){
-                System.out.println("Out of time.");
                 stopped = true;
                 break;
             }
@@ -332,11 +272,11 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                 if(j.ID == 0){
                     //initial jump
                     if(t < jumpPower/2){
-                        //System.out.println("moving 0 up");
+                        System.out.println("moving 0 up");
                         move(j, j.x, j.y + 1);
                     }
                     else if(j.y > 60){
-                        //System.out.println("moving 0 down");
+                        System.out.println("moving 0 down");
                         move(j, j.x, j.y - 1);
                     }
 
@@ -346,21 +286,15 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                 }
                 else if(j.ID == 2){
                     if (t >= time1 && t < time1 + 4) {
-                        //System.out.println("moving 1 up");
+                        System.out.println("moving 1 up");
                         move(j, j.x-0.5, j.y + 5);
                     }else if(j.y >= 165 && t > time1){
-                    //System.out.println("moving 1 down");
+                        System.out.println("moving 1 down");
                         move(j, j.x, j.y - 1);
                     }
                 }
                 else if(j.ID == 3){
-                    if (t >= time2 && t < time2 + 4) {
-                        //System.out.println("moving 3 up");
-                        move(j, j.x-1, j.y + 2);
-                    }else if(j.y >= 170 && t > time2 && Joints.firstElement().y > 60){
-                    //System.out.println("moving 3 down");
-                        move(j, j.x, j.y - 1);
-                    }
+
                 }
             }
 

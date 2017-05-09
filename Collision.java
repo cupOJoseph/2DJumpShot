@@ -53,7 +53,7 @@ public class Collision {
   void bounceOffWall(){
     //initial position
 
-    if(goal()==true||collision>3){
+    if(goal()==true){
     goalPoints++;
     this.nextX = 50;
     this.nextY = 10;
@@ -72,32 +72,26 @@ public class Collision {
 
     //bounce off the left wall
 
-    //assume ball has a radius of 10
-    if(this.nextX<this.minX+20){
+    if(this.nextX<this.minX+10){
       this.next_velX = (-1)*this.current_velX;
-      this.nextX = this.minX+20;
-      this.next_velY = this.current_velY - 0.1 * 9.8;
-      this.nextY = this.currentY + 0.1 * current_velY;
-
+      this.nextX = this.minX+10;
       collision++;
 
     }
     //bounce off the right wall
     if(this.nextX>this.maxX-20){
       this.next_velX = (-1)*this.current_velX;
-
-      this.nextX = this.maxX-20;
+      this.nextX = this.maxX-10;
 
       this.next_velY = this.current_velY - 0.1 * 9.8;
       this.nextY = this.currentY + 0.1 * current_velY;
-
       collision++;
     }
 
     //bounce off the floor
     if(this.nextY<this.minY+20){
     this.next_velY = (-1)*this.current_velY - 0.1 * 9.8;
-
+    this.nextY = this.minY+10;
     this.next_velX = this.current_velX;
     this.nextX = this.currentX + 0.1 * current_velX;
 
@@ -107,11 +101,10 @@ public class Collision {
     //bounce off the ceiling
     if(this.nextY<this.maxY-20){
     this.next_velY = (-1)*this.current_velY - 0.1 * 9.8;
-
     this.nextY = this.maxY-20;
-
     this.next_velX = this.current_velX;
     this.nextX = this.currentX + 0.1 * current_velX;
+
     collision++;
     }
 
