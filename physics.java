@@ -28,20 +28,24 @@ public class physics {
 
   ball update(ball ball){
     //return an updated ball
+    this.currentX = ball.getCurrentX();
+    this.currentY = ball.getCurrentY();
+    this.current_velX = ball.getCurrent_velX();
+    this.current_velY = ball.getCurrent_velY();
     updateStatus();
-    ball.setNextX(this.nextX);
-    ball.setNextY(this.nextY);
-    ball.setNext_velX(this.next_velX);
-    ball.setNext_velY(this.next_velY);
+    ball.setCurrentX(this.currentX);
+    ball.setCurrentY(this.currentY);
+    ball.setCurrent_velX(this.current_velX);
+    ball.setCurrent_velY(this.current_velY);
     return ball;
 
   }
 
   void updateStatus(){
     //this method will update the status of the ball
-    this.nextX = this.currentX + 0.1 * current_velX;
-    this.nextY = this.currentY + 0.1 * current_velY;
-    this.next_velX = this.current_velX;
-    this.next_velY = this.current_velY - 0.1 * 9.8;
+    this.currentX = this.currentX - 0.1 * current_velX;
+    this.currentY = this.currentY + 0.1 * current_velY;
+    this.current_velX = this.current_velX + 0.1 * 9.8;
+    this.current_velY = this.current_velY + 0.1 * 9.8;
   }
 }

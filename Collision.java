@@ -52,7 +52,11 @@ public class Collision {
 
   void bounceOffWall(){
     //initial position
+<<<<<<< HEAD
     if(goal()==true||collision>3){
+=======
+    if(goal()==true){
+>>>>>>> origin/Physics
     goalPoints++;
     this.nextX = 50;
     this.nextY = 10;
@@ -72,39 +76,66 @@ public class Collision {
 =======
 >>>>>>> 505a38d19c2f76d9bd1c9c23e4e065502f2c3825
     //bounce off the left wall
+<<<<<<< HEAD
     //assume ball has a radius of 10
     if(this.nextX<this.minX+20){
       this.next_velX = (-1)*this.current_velX;
       this.nextX = this.minX+20;
       this.next_velY = this.current_velY - 0.1 * 9.8;
       this.nextY = this.currentY + 0.1 * current_velY;
+=======
+    if(this.nextX<this.minX+10){
+      this.next_velX = (-1)*this.current_velX;
+      this.nextX = this.minX+10;
+>>>>>>> origin/Physics
       collision++;
 
     }
     //bounce off the right wall
     if(this.nextX>this.maxX-20){
       this.next_velX = (-1)*this.current_velX;
+<<<<<<< HEAD
       this.nextX = this.maxX-20;
+=======
+      this.nextX = this.maxX-10;
+<<<<<<< HEAD
+>>>>>>> origin/Physics
       this.next_velY = this.current_velY - 0.1 * 9.8;
       this.nextY = this.currentY + 0.1 * current_velY;
+=======
+>>>>>>> origin/Physics
       collision++;
     }
 
     //bounce off the floor
     if(this.nextY<this.minY+20){
     this.next_velY = (-1)*this.current_velY - 0.1 * 9.8;
+<<<<<<< HEAD
     this.nextY = this.minY+20;
+=======
+    this.nextY = this.minY+10;
+<<<<<<< HEAD
+>>>>>>> origin/Physics
     this.next_velX = this.current_velX;
     this.nextX = this.currentX + 0.1 * current_velX;
+=======
+>>>>>>> origin/Physics
     collision++;
 
     }
     //bounce off the ceiling
     if(this.nextY<this.maxY-20){
     this.next_velY = (-1)*this.current_velY - 0.1 * 9.8;
+<<<<<<< HEAD
     this.nextY = this.maxY-20;
+=======
+    this.nextY = this.maxY-10;
+<<<<<<< HEAD
+>>>>>>> origin/Physics
     this.next_velX = this.current_velX;
     this.nextX = this.currentX + 0.1 * current_velX;
+=======
+>>>>>>> origin/Physics
     collision++;
     }
 

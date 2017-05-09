@@ -22,6 +22,7 @@ class Joint {
 
 public class Jumpshot extends JPanel implements MouseInputListener {
 
+
     // Store Joint instances.
     Vector<Joint> Joints;
     Vector<Rectangle2D.Double> obstacles;
@@ -46,6 +47,10 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
     String msg = "";
     int numIllegalMoves = 0;
+
+    //define a new ball located at joint 2
+    ball testBall = new ball(741.6714473628482,163.63054470011215,0.0,0.0);
+    physics testPhysics = new physics();
 
     public Jumpshot ()
     {
@@ -118,6 +123,63 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         target.y = 275;
     }
 
+    //Ball bounces
+    /**void bounceOffWall(){
+            //initial position
+        if(goal()==true||collision>3){
+        goalPoints++;
+        this.nextX = 50;
+        this.nextY = 10;
+        this.next_velX = 0;
+        this.next_velY = -9.8;
+        //init(ball);
+        }
+        //bounce off the left wall
+        //assume ball has a radius of 10
+        if(this.nextX<this.minX+20){
+          this.next_velX = (-1)*this.current_velX;
+          this.nextX = this.minX+20;
+          this.next_velY = this.current_velY - 0.1 * 9.8;
+          this.nextY = this.currentY + 0.1 * current_velY;
+          collision++;
+
+        }
+        //bounce off the right wall
+        if(this.nextX>this.maxX-20){
+          this.next_velX = (-1)*this.current_velX;
+          this.nextX = this.maxX-20;
+          this.next_velY = this.current_velY - 0.1 * 9.8;
+          this.nextY = this.currentY + 0.1 * current_velY;
+          collision++;
+        }
+
+        //bounce off the floor
+        if(this.nextY<this.minY+20){
+        this.next_velY = (-1)*this.current_velY - 0.1 * 9.8;
+        this.nextY = this.minY+20;
+        this.next_velX = this.current_velX;
+        this.nextX = this.currentX + 0.1 * current_velX;
+        collision++;
+
+        }
+        //bounce off the ceiling
+        if(this.nextY<this.maxY-20){
+        this.next_velY = (-1)*this.current_velY - 0.1 * 9.8;
+        this.nextY = this.maxY-20;
+        this.next_velX = this.current_velX;
+        this.nextX = this.currentX + 0.1 * current_velX;
+        collision++;
+        }
+
+        else{
+        this.next_velX = this.current_velX;
+        this.next_velY = this.current_velY - 0.1 * 9.8;
+        this.nextX = this.currentX + 0.1 * current_velX;
+        this.nextY = this.currentY + 0.1 * current_velY;
+        }
+
+    }**/
+
     //
     public void paintComponent (Graphics g)
     {
@@ -167,7 +229,9 @@ public class Jumpshot extends JPanel implements MouseInputListener {
 
                 //color Ball
                 g.setColor(Color.orange);
-                g.fillOval (x-radius, y-radius-20, 2*radius, 2*radius);
+                g.fillOval  ((int)Math.ceil(testBall.getCurrentX()),D.height-(int)Math.ceil(testBall.getCurrentY())-radius-20,2*radius, 2*radius);
+
+
             }
 
 
@@ -298,6 +362,18 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                         move(j, j.x, j.y - 1);
                     }
                 }
+            }
+
+            //update ball
+            if (t<=time3) {
+              Joint j = Joints.elementAt(3);
+              testBall.setCurrentX(j.x);
+              testBall.setCurrentY(j.y);
+            }
+
+            if (t>time3) {
+              // after time3 the ball will shot at 45 degree
+              testBall = testPhysics.update(testBall);
             }
 
 
