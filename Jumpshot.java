@@ -49,7 +49,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
     int numIllegalMoves = 0;
 
     //define a new ball located at joint 2
-    ball testBall = new ball(441.6714473628482,163.63054470011215,25,50);
+    ball testBall = new ball(341.6714473628482,163.63054470011215,25,50);
     physics testPhysics = new physics();
 
     public Jumpshot ()
@@ -85,28 +85,28 @@ public class Jumpshot extends JPanel implements MouseInputListener {
         //Joint 1
         Joint Joint1 = new Joint ();
         Joint1.ID = 0;
-        Joint1.x = 523.9985946492372;
+        Joint1.x = 423.9985946492372;
         Joint1.y = 62.00498608067244;
         Joints.add (Joint1);
 
         //Joint 2
         Joint Joint2 = new Joint ();
         Joint2.ID = 1;
-        Joint2.x = 523.0;
+        Joint2.x = 423.0;
         Joint2.y = 162.0;
         Joints.add (Joint2);
 
         //Joint 3
         Joint Joint3 = new Joint ();
         Joint3.ID = 2;
-        Joint3.x = 480.5045263951948;
+        Joint3.x = 380.5045263951948;
         Joint3.y = 71.47853998579505;
         Joints.add (Joint3);
 
         //Joint 4
         Joint Joint4 = new Joint ();
         Joint4.ID = 3;
-        Joint4.x = 441.6714473628482;
+        Joint4.x = 341.6714473628482;
         Joint4.y = 163.63054470011215;
         Joints.add (Joint4);
 
