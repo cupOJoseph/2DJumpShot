@@ -302,7 +302,7 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                 else if(j.ID == 3){
                         if (t >= time1 && t < time2 + 4) {
                             //System.out.println("moving 1 up");
-                            move(j, j.x-2, j.y + 2);
+                            move(j, j.x-1, j.y + 2);
                         }else if(j.y >= 165 && t > time2){
                             //System.out.println("moving 1 down");
                             move(j, j.x, j.y - 1);
