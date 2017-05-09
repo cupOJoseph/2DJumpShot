@@ -278,11 +278,11 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                 if(j.ID == 0){
                     //initial jump
                     if(t < jumpPower/2){
-                        System.out.println("moving 0 up");
+                        //System.out.println("moving 0 up");
                         move(j, j.x, j.y + 1);
                     }
                     else if(j.y > 60){
-                        System.out.println("moving 0 down");
+                        //System.out.println("moving 0 down");
                         move(j, j.x, j.y - 1);
                     }
 
@@ -292,17 +292,24 @@ public class Jumpshot extends JPanel implements MouseInputListener {
                 }
                 else if(j.ID == 2){
                     if (t >= time1 && t < time1 + 4) {
-                        System.out.println("moving 1 up");
+                        //System.out.println("moving 1 up");
                         move(j, j.x-0.5, j.y + 5);
-                    }else if(j.y >= 165 && t > time1){
-                        System.out.println("moving 1 down");
+                    }else if(j.y >= 80 && t > time1){
+                        //System.out.println("moving 1 down");
                         move(j, j.x, j.y - 1);
                     }
                 }
                 else if(j.ID == 3){
+                        if (t >= time1 && t < time2 + 4) {
+                            //System.out.println("moving 1 up");
+                            move(j, j.x-1, j.y + 2);
+                        }else if(j.y >= 165 && t > time2){
+                            //System.out.println("moving 1 down");
+                            move(j, j.x, j.y - 1);
+                        }
+                    }
+                }//end joint for
 
-                }
-            }
 
             //update ball
             if (t<=time3) {
